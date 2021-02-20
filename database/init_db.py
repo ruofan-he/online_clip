@@ -5,9 +5,8 @@ from .schema import Base, User
 
 
 def init_db():
-    #clear_db()
+    clear_db()
     create_table()
-    write_element()
 
 def clear_db():
     print('clear DB')
