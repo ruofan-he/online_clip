@@ -8,4 +8,7 @@ import os
 def migrate():
     alembic_cfg = Config(os.path.join(os.path.dirname(__file__),"alembic.ini"))
     alembic_cfg.set_main_option('sqlalchemy.url', get_uri())
+    alembic_cfg.set_main_option('script_location',
+        os.path.join(os.path.dirname(__file__), alembic_cfg.get_main_option('script_location'))
+        )
     command.upgrade(alembic_cfg, "head")
