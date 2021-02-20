@@ -23,10 +23,18 @@ def init_db_table():
     create_table
 
 
-@cmd.command('migrate')
-def migrate():
-    from database import migrate
-    migrate()
+migrate_group = cmd.group('migrate')(lambda: None)
+@migrate_group.command('revision')
+@click.option('-a','--autogenerate', is_flag=True)
+@click.option('-m','--message')
+def revision(autogenerate, message):
+    from database import revision
+    revision(autogenerate, message)
+
+@migrate_group.command('upgrade')
+def upgrade():
+    from database import upgrade
+    upgrade()
 
 @cmd.command('uri')
 def uri():
