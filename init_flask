@@ -1,0 +1,5 @@
+export FLASK_APP=clipboard
+export FLASK_ENV=development
+# development mode, very convinient
+
+flask run

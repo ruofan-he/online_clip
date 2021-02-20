@@ -1,0 +1,7 @@
+{
+    "HOST": "ec2-35-171-57-132.compute-1.amazonaws.com",
+    "USER": "kdrbmaqdovhrgj",
+    "PASSWORD": "417f72c49d1540b65f0b3b99126b9fa3922c4176db7ff7c1d7e5b0b12113b64d",
+    "DATABASE": "d43dk74tbvist",
+    "PORT": "5432"
+}
