@@ -19,12 +19,17 @@ def init_db_clear():
 @db_group.command('table')
 def init_db_table():
     from .database import create_table
-    create_table
+    create_table()
 
 @db_group.command('write')
 def init_db_write():
     from .database import write_element
     write_element()
+
+@db_group.command('read')
+def init_db_read():
+    from .database import read_element
+    read_element()
 
 
 migrate_group = cmd.group('migrate')(lambda: None)
