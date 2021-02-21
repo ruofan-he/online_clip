@@ -1,0 +1,5 @@
+graft online_clip
+global-exclude *.py[cod]
+prune */.vscode
+prune */__pycache__
+prune */.egg-info
