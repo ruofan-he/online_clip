@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 from .engine import engine
 from sqlalchemy.orm import sessionmaker
 from .schema import Base, Account, Entry
@@ -32,7 +33,7 @@ def write_element():
     with open_session() as session:
         user_list       = [
             Account(
-                account     = f"{i}",
+                account     = f"{hashlib.sha224(str(i).encode()).hexdigest()[:10]}",
                 pw_hash     = 'pass',
                 first_name  = f"first_b{i}",
                 last_name   = f"last_b{i}",
@@ -72,7 +73,23 @@ def read_element():
         entry = session.query(Entry).first()
         print('------------------')
         print(user)
+        print('')
         print(entry)
         print('------------------')
-        
 
+
+def delete_element():
+    print('delete element')
+    SessionClass    = sessionmaker(engine)
+    open_session    = SessionHandler(SessionClass)
+
+    with open_session() as session:
+        user = session.query(Account).first()
+        entry = session.query(Entry).first()
+        print('------------------')
+        print(user)
+        print('')
+        print(entry)
+        print('------------------')
+        session.delete(user)
+        session.commit()

@@ -5,5 +5,5 @@ from .util import get_uri
 engine = create_engine(
     get_uri(),
     encoding = "utf-8",
-    echo=True
+    echo=False
 )

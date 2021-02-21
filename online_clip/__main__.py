@@ -31,6 +31,11 @@ def init_db_read():
     from .database import read_element
     read_element()
 
+@db_group.command('delete')
+def init_db_delete():
+    from .database import delete_element
+    delete_element()
+
 
 migrate_group = cmd.group('migrate')(lambda: None)
 @migrate_group.command('revision')
