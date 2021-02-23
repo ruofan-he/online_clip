@@ -10,8 +10,8 @@ Base=declarative_base()
 
 class Account(Base):
     __tablename__   = "account" #テーブル名を指定
-    id              = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    account         = Column(String(255), unique=True, nullable=False)
+    key             = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    user_id         = Column(String(255), unique=True, nullable=False)
     pw_hash         = Column(String(255), nullable=False)
     first_name      = Column(String(255), nullable=True)
     last_name       = Column(String(255), nullable=True)
@@ -22,32 +22,34 @@ class Account(Base):
     def __str__(self):
         return \
 f"""\
-id          : {self.id}
-accout      : {self.account}
+key         : {self.key}
+user_id     : {self.user_id}
 name        : {self.first_name} {self.last_name}
-entries     : {[entry.text for entry in self.entries]}
 age         : {self.age}
 created_at  : {self.created_at}\
 """
-    
+# lazy load happen
+# entries     : {[entry.text for entry in self.entries]}
+# load after session.close(), and raise error! 
 
 class Entry(Base):
     __tablename__   = "entry"
-    id              = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    user_id         = Column(
+    key             = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    account_key     = Column(
         Integer,
-        ForeignKey(f'{Account.__tablename__}.id'),
+        ForeignKey(f'{Account.__tablename__}.key'),
         nullable=False
     )
     text            = Column(UnicodeText, default='', nullable=False)
     is_public       = Column(Boolean, default=False, nullable=False)
+    created_at      = Column(DateTime, server_default=current_timestamp(), nullable=False)
     expire_datetime = Column(DateTime, nullable=True)
 
     def __str__(self):
         return \
 f"""\
-id       : {self.id}
-user_id  : {self.user_id}
-text     : {self.text}\
+key         : {self.key}
+account_key : {self.account_key}
+text        : {self.text}\
 """
     

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# -----------------------
+# basic database management
+# intended to be excuted from command line
+# -----------------------
+
 import hashlib
 from .engine import engine
 from sqlalchemy.orm import sessionmaker
@@ -33,7 +38,7 @@ def write_element():
     with open_session() as session:
         user_list       = [
             Account(
-                account     = f"{hashlib.sha224(str(i).encode()).hexdigest()[:10]}",
+                user_id     = f"{hashlib.sha224(str(i).encode()).hexdigest()[:10]}",
                 pw_hash     = 'pass',
                 first_name  = f"first_b{i}",
                 last_name   = f"last_b{i}",
@@ -52,9 +57,9 @@ def write_element():
 
         entry_list      = [
             Entry(
-                user_id = user.id,
-                text    = f'this entry is by {user.id} {user.account}'
-            ) for user in user_list
+                account_key = account.key,
+                text    = f'this entry is by key {account.key} user_id {account.user_id}'
+            ) for account in user_list
         ]
         session.bulk_save_objects(entry_list)   
         # bulk_save_objects take less time.

@@ -5,7 +5,25 @@ import click
 def cmd():
     pass
 
-db_group = cmd.group('init-db')(lambda: None)
+
+@cmd.command('dev')
+def dev():
+    from .app import create_app
+    app = create_app()
+    app.run(debug = True)
+
+
+@cmd.command('run')
+@click.option('-d','--dev', is_flag=True)
+def run(dev):
+    is_dev = dev
+    from .app import create_app
+    app = create_app()
+    print(dev)
+    app.run(debug = is_dev)
+
+
+db_group = cmd.group('db')(lambda: None)
 @db_group.command('init')
 def init_db_init():
     from .database import init_db

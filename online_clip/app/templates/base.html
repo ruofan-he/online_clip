@@ -12,5 +12,7 @@
 {% block content %}{% endblock %}
 <footer>
     フッター
-    {{ g }}
+    {% for i in entry %}
+    {{ i }}
+    {% endfor %}
 </footer>

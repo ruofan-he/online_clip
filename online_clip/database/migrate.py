@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-from .engine import engine
+# -----------------------
+# basic database migrate management
+# intended to be excuted from command line
+# -----------------------
+
 from alembic.config import Config
 from alembic import command
 from .util import get_uri
