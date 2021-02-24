@@ -9,13 +9,17 @@ def create_app(test_config=None):
     )
 
 
-    from . import top
-    app.register_blueprint(top.bp)
-    # app.add_url_rule('/', endpoint='this_is_top')
+    from .top import bp as bp_top
+    app.register_blueprint(bp_top)
+    from .auth import bp as bp_auth
+    app.register_blueprint(bp_auth)
 
+    # app.add_url_rule('/', endpoint='this_is_top')
+    # this make url_for('this_is_top') refer to '/'
 
     from . import error_handle
     app.register_error_handler(404, error_handle.error_404)
+    app.register_error_handler(400, error_handle.error_400)
 
     app.db = Database()
 

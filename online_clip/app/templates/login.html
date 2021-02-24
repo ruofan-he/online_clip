@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}ログイン - {% endblock %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename='hash.js') }}"></script>
+<script>
+async function data_inject(){
+    var fields = document.getElementsByName("registration_form")[0];
+    var pw_hash = await sha256(fields.password.value);
+    var hidden_fields = document.getElementsByName("hidden_form")[0];
+    hidden_fields.user_id.value = fields.user_id.value
+    hidden_fields.pw_hash.value = pw_hash
+    if(fields.user_id.value.length == 0){return}
+    if(fields.password.value.length == 0){return}
+    hidden_fields.submit()
+}
+</script>
+<div>
+    <form name="registration_form">
+        <h1>ログイン</h1>
+        id：<input type="text" name="user_id" class="field" required>
+        <hr>
+        パスワード：<input type="password" name="password" size="10" class="field" required>
+    </form>
+    <form name="hidden_form" method="POST">
+        <input type="hidden" name="user_id" class="field" required value="">
+        <input type="hidden" name="pw_hash" size="10" class="field" required value="">
+        <input type="button" value="送信する" class="button" onClick="data_inject()">
+    </form>
+</div>
+{% endblock %}

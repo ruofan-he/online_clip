@@ -9,13 +9,11 @@ from flask import (
 )
 from ..database.db import Database
 
-from ..database import read_element
-
 bp = Blueprint('top', __name__)
 
-@bp.route('/')
-@bp.route('/index')
-def index():
+@bp.route('/index')     # multiple routing
+@bp.route('/')          # url_for('top.index') refer to '/', e.g. the last bp.route('some_url')
+def index():            # url_for('top.this_func_name') this_func_name = index
     db : Database = current_app.db
-    entry = db.get_entry(3)
-    return render_template('base.html', entry=entry)
+    entry_list = db.get_entry(3)
+    return render_template('index.html', entry_list=entry_list)

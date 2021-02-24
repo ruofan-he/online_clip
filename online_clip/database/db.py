@@ -25,6 +25,37 @@ class Database():
             return False
         
         return fetched_account.pw_hash == pw_hash
+
+    def register_user(self, user_id, pw_hash, first_name, last_name):
+        SessionClass    = sessionmaker(self.engine)
+        open_session    = SessionHandler(SessionClass)
+
+        register_success = None
+
+        with open_session() as session:
+            fetched_account = (
+                session
+                .query(Account.user_id)
+                .filter(Account.user_id == user_id)
+                .first()
+            )
+
+        if fetched_account:
+            register_success = False
+            return register_success
+
+        with open_session() as session:
+            account = Account(
+                user_id     = user_id,
+                pw_hash     = pw_hash,
+                first_name  = first_name,
+                last_name   = last_name
+            )
+            session.add(account)
+            session.commit()
+            register_success = True
+        
+        return register_success
     
     def get_entry(self, cursor):
         SessionClass    = sessionmaker(self.engine)

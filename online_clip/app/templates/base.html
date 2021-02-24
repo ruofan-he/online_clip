@@ -6,13 +6,17 @@
 </head>
 <header>
     <nav>
-        <h1>online clipboard</h1>
+        <h1><a href="{{ url_for('top.index') }}" >online clipboard</a></h1>
+        {% if session.get('user_id') %}
+        <a href="{{ url_for('auth.userpage') }}">{{ session.get('user_id') }}</a>
+        <a href="{{ url_for('auth.logout') }}" >ログアウト</a>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}" >ログイン</a>
+        <a href="{{ url_for('auth.registration') }}" >新規登録</a>
+        {% endif %}
     </nav>
 </header>
 {% block content %}{% endblock %}
 <footer>
-    フッター
-    {% for i in entry %}
-    {{ i }}
-    {% endfor %}
+    this site is powered by flask, sqlalchemy
 </footer>
