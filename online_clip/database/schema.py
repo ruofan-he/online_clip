@@ -52,4 +52,7 @@ key         : {self.key}
 account_key : {self.account_key}
 text        : {self.text}\
 """
-    
+
+    def set_text(self, text):
+        self.text = text
+        return self

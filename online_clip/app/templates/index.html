@@ -3,7 +3,41 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+<script>
+function onCopy(id){
+    var textarea = document.getElementById(id);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.blur();
+}
+
+async function onCatch(url, id){
+    var textarea = document.getElementById(id);
+    var http = new XMLHttpRequest()
+    http.open("GET", url );
+    http.onload = function () {
+        textarea.value = http.responseText
+    };
+    http.send();
+}
+
+window.onload = function(){
 {% for entry in entry_list %}
-ああ
+    onCatch("{{ url_for('api.get_entry', key=entry.key) }}" , "textarea{{ entry.key }}")
 {% endfor %}
+}
+</script>
+<section>
+{% for entry in entry_list %}
+<div class="post">
+    <textarea id="textarea{{ entry.key }}" name="text" rows="4" placeholder="本文"></textarea>
+    <ul>
+        <button onClick="onCopy('textarea{{ entry.key }}')">コピー</button>
+        <li>作成日時　{{ entry.created_at }}　</li>
+        <li>投稿者　{{ entry.account.user_id }}</li>
+    </ul>
+</div>
+<hr>
+{% endfor %}
+</section>
 {% endblock %}

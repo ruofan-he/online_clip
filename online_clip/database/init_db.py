@@ -16,15 +16,20 @@ def init_db():
     create_table()
     write_element()
 
+# this can be used only for posgreSQL
+# def clear_db():
+#     print('clear DB')
+#     sql         = 'SELECT relname AS table_name FROM pg_stat_user_tables;'
+#     result      = engine.execute(sql).fetchall()
+#     table_list  = [dict(row.items()).get('table_name') for row in result ]
+#     if 'user' in table_list: table_list.remove('user')
+#     for table in table_list:
+#         sql     = f'DROP TABLE IF EXISTS {table} CASCADE;'
+#         engine.execute(sql)
+
 def clear_db():
     print('clear DB')
-    sql         = 'SELECT relname AS table_name FROM pg_stat_user_tables;'
-    result      = engine.execute(sql).fetchall()
-    table_list  = [dict(row.items()).get('table_name') for row in result ]
-    if 'user' in table_list: table_list.remove('user')
-    for table in table_list:
-        sql     = f'DROP TABLE IF EXISTS {table} CASCADE;'
-        engine.execute(sql)
+    Base.metadata.drop_all(engine)
 
 def create_table():
     print('create table')
@@ -58,7 +63,8 @@ def write_element():
         entry_list      = [
             Entry(
                 account_key = account.key,
-                text    = f'this entry is by key {account.key} user_id {account.user_id}'
+                text    = f'this entry is by key {account.key} user_id {account.user_id}',
+                is_public = True
             ) for account in user_list
         ]
         session.bulk_save_objects(entry_list)   
