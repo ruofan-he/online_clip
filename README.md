@@ -72,6 +72,35 @@ python -m [module_name] ...(各種コマンドライン引数)
 `__init__.py`は必ず読み込まれます。なにかの事情で回避したいときも
 あるかもしれませんが方法は知りません。`__init__.py`内部の処理で`-m`から起動したときだけ実行しない文を追加する事も考えられるかもしれません。
 
+### モジュール化について
+作ったモジュールは`setup.py`を容易することで、pipでインストールするように
+できます。
+```
+pip install -e . # その場にインストール
+pip install . # site-packageにインストール
+```
+`__init__.py`があるディレクトリしかパッケージとして認識されず、
+パッケージしか`site-package`にコピーされないので、
+`.py`があるディレクトリすべてに`__init__.py`は置きましょう。
+また`.py`でないファイル例`.json`なども`site-package`に移したいのであれば、
+```
+from setuptools import setup, find_packages
+setup(
+    name="online_clip",
+    version="1.0.0",
+    install_requires=['click', 'SQLAlchemy', 'Flask', 'alembic'],
+    packages=find_packages(),
+    include_package_data=True, # データもコピーする
+    extras_require={
+        "develop": []
+    },
+)
+```
+と設定して、`MANIFEST.in`を書くといいでしょう。
+
+### `MANIFEST.in`の注意
+`prune`などは1つのオペランドしか受け付けません。`prune dir1 dir2`とかは`dir2`の指示が通らないため注意。
+
 ## `alembic`の使い方
 将来的にアジャイルなデータベース運用に移るとmigrationツールがあったほうが便利です。
 `alembic`は`sqlalchemy`用のmigrationツールで、
