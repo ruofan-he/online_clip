@@ -14,6 +14,8 @@ def create_app(test_config=None):
     app.register_blueprint(bp_auth)
     from .api import bp as bp_api
     app.register_blueprint(bp_api)
+    from .spa import bp as bp_spa
+    app.register_blueprint(bp_spa)
 
     # app.add_url_rule('/', endpoint='this_is_top')
     # this make url_for('this_is_top') refer to '/'

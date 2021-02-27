@@ -71,13 +71,15 @@ def logout():
 
 
 # register function that run before the view function, nomatter what url
-@bp.before_app_request
-def before():
-    print('before_app_request')
-    pass
-    # g.user = ~~~~
-    # db.~~(~~)
-    # etc.
+# nomatter what blueprint
+# equivalent to @app.before_app_request
+# @bp.before_app_request
+# def before():
+#     print('before_app_request')
+#     pass
+#     # g.user = ~~~~
+#     # db.~~(~~)
+#     # etc.
 
 
 # decorator, it can be used to decorate vue_func if needed
