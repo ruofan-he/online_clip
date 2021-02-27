@@ -10,6 +10,7 @@ from flask import (
     redirect
 )
 from ..database.db import Database
+import functools
 
 bp = Blueprint('auth', __name__)
 
@@ -66,3 +67,25 @@ def logout():
     session.pop('user_id',None)
     session.modified = True
     return redirect(url_for('top.index'))
+
+
+
+# register function that run before the view function, nomatter what url
+@bp.before_app_request
+def before():
+    print('before_app_request')
+    pass
+    # g.user = ~~~~
+    # db.~~(~~)
+    # etc.
+
+
+# decorator, it can be used to decorate vue_func if needed
+def login_required(view_func):
+    @functools.wraps(view_func) # this is needed in order to move view_func.__name__ to wrapped_view_func.__name__
+    def wrapped_view_func(*args, **kwargs):
+        # login process etc.
+        # if not is_login:
+        # return redirect(url_for('auth.login'))
+        return view_func(*args, **kwargs)
+    return wrapped_view_func
