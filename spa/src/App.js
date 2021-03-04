@@ -1,6 +1,8 @@
 import './App.css';
 import React from 'react'
 import ListView from './components/list'
+import AddButton from './components/pushbutton'
+
 
 class App extends React.Component {
 
@@ -19,6 +21,7 @@ class App extends React.Component {
           >
             Learn React
           </a>
+          <AddButton/>
           <ListView title='mytitle'/>
         </header>
       </div>
