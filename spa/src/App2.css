@@ -25,9 +25,6 @@ html {
   max-width: 100vw;
   height: var(--app-header-height);
   background-color: azure;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
 }
 
 .App-content {
