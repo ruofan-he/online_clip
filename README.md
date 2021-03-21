@@ -1,5 +1,5 @@
 # online_clipboard
-## 環境整備
+## 環境整備(Python)
 ### python
 pythonのライブラリ周りの仮想環境にはvenvがおすすめです。pythonの純正モジュールです。
 ```
@@ -100,6 +100,38 @@ setup(
 
 ### `MANIFEST.in`の注意
 `prune`などは1つのオペランドしか受け付けません。`prune dir1 dir2`とかは`dir2`の指示が通らないため注意。
+
+## 環境構築(nodejs)
+### nodejs
+`nodejs`ではグローバルインストール出ない限り、カレントディレクトリに`./node_modules`が作成され
+各種のライブラリはここにインストールされます。そのためわざわざ仮想環境を切る必要はないとは言えます。
+
+必要ライブラリが記載されたファイルには
+- `package.json` - ユーザーが明示的に指定したもの。`npm install (ライブラリ名)`したものが連なる。
+- `package-lock.json` - 上のライブラリが依存するもの。
+
+### ライブラリのインストールについて
+```
+npm install module_name
+(npm -version >= 5.0.0 では デフォルトで --save 指定時の効果が出る。 )
+```
+
+### モジュールの実行
+※ .jsファイルからライブラリを呼び出す話ではない 
+
+ローカルインストールで`./node_modules`に作られたモジュールを実行するためには、
+`npm run command_name`によって`./node_modules`のパスを教えてやらないといけない。
+`create-react-app`コマンドを実行したい時には、`package.json`に
+```
+  "scripts": {
+    (他のコマンド達),
+    "create-react-app": "create-react-app"
+  },
+```
+を追加すればOK。
+
+### ライブラリの読み込み
+適当に上位ディレクトリをたどって`node_modules`ディレクトリを探しに言ってインポートしてしまうらしい。
 
 ## `alembic`の使い方
 将来的にアジャイルなデータベース運用に移るとmigrationツールがあったほうが便利です。
