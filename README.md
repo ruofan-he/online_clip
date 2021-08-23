@@ -101,6 +101,24 @@ setup(
 ### `MANIFEST.in`の注意
 `prune`などは1つのオペランドしか受け付けません。`prune dir1 dir2`とかは`dir2`の指示が通らないため注意。
 
+### `wheel`化
+`setup.py`を書いているので`wheel`ファイルにまとめることが可能。
+```
+python setup.py bdist_wheel
+```
+
+### `wheel`ファイルのインストール
+`wheel`ファイルは依存関係を含めてPyPiレポジトリからダウンロードすることが可能であり、
+それを適当なディレクトリにまとめてオフライン環境などにインストールすることも可能。
+```
+pip download -d directory {package名} とか {-r requirements.txt}
+```
+インストールは
+```
+pip install --find-links=directory --no-index {package名} とか {-r requirements.txt}
+```
+
+
 ## 環境構築(nodejs)
 ### nodejs
 `nodejs`ではグローバルインストール出ない限り、カレントディレクトリに`./node_modules`が作成され
